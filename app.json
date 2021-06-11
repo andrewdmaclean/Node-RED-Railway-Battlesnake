@@ -30,7 +30,7 @@
     "NODE_RED_DASHBOARD_URI": {
       "description": "Path for the dashboard, Must not be the same as the editor (can be changed after deployment)",
       "value": "/ui"
-    },
+    }
   },
   "addons": [
     {
