@@ -23,9 +23,6 @@ var path = require("path");
 var when = require("when");
 var pgutil = require('./pgutil');
 
-process.env.NODE_RED_HOME = __dirname;
-pgutil.initPG();
-pgutil.createTable();
 
 var settings = module.exports = {
 
@@ -507,5 +504,8 @@ var settings = module.exports = {
 
     // Enable module reinstalls on start-up; this ensures modules installed post-deploy are restored after a restage
     autoInstallModules: true,
-    
 }
+
+pgutil.initPG();
+pgutil.createTable();
+
