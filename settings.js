@@ -27,7 +27,7 @@ process.env.NODE_RED_HOME = __dirname;
 pgutil.initPG();
 pgutil.createTable();
 
-module.exports = {
+var settings = module.exports = {
 
 /*******************************************************************************
  * Flow File and User Directory Settings
