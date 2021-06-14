@@ -23,6 +23,8 @@ var path = require("path");
 var when = require("when");
 var pgutil = require('./pgutil');
 
+
+console.log(process.env.NODE_RED_HOME) 
 process.env.NODE_RED_HOME = __dirname;
 
 var settings = module.exports = {
@@ -266,7 +268,7 @@ var settings = module.exports = {
               * trace - record very detailed logging + debug + info + warn + error + fatal errors
               * off - turn off all logging (doesn't affect metrics or audit)
               */
-             level: "trace",
+             level: "info",
              /** Whether or not to include metric events in the log output */
              metrics: false,
              /** Whether or not to include audit events in the log output */
