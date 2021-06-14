@@ -500,7 +500,7 @@ var settings = module.exports = {
     //},
     
     // Blacklist the non-cloud friendly nodes
-    nodesExcludes:[ '75-exec.js','35-arduino.js','36-rpi-gpio.js','25-serial.js','28-tail.js','50-file.js','31-tcpin.js','32-udp.js','23-watch.js' ],
+    //nodesExcludes:[ '75-exec.js','35-arduino.js','36-rpi-gpio.js','25-serial.js','28-tail.js','50-file.js','31-tcpin.js','32-udp.js','23-watch.js' ],
 }
 
 pgutil.initPG();
