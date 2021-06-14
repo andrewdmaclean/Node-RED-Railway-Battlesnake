@@ -23,6 +23,7 @@ var path = require("path");
 var when = require("when");
 var pgutil = require('./pgutil');
 
+process.env.NODE_RED_HOME = __dirname;
 
 var settings = module.exports = {
 
