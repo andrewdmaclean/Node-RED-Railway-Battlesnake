@@ -5,5 +5,5 @@ A wrapper for deploying [Node-RED](http://nodered.org) into [Heroku](https://www
 
 ### Deploying Node-RED on Heroku
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/sammachin/node-red-heroku)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
