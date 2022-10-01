@@ -1,5 +1,5 @@
 {
-    "name"         : "node-red-heroku",
+    "name"         : "nodered-railway-battlesnake",
     "version"      : "0.1.0",
     "dependencies": {
         "when": "~3.x",
@@ -8,5 +8,7 @@
         "feedparser":"~0.19.2",
         "node-red": "~2.x.x",
         "node-red-dashboard" : "~2.x.x"
+        "node-red-node-random": "latest",
+        "node-red-contrib-ngrok": "latest"
     }
 }
