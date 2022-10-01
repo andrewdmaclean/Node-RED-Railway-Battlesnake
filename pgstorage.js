@@ -18,6 +18,8 @@
 var when = require('when')
 var pgutil = require('./pgutil')
 const e = require('express')
+var fs = require('fs');
+
 
 var settings
 var appname
@@ -46,9 +48,16 @@ function getFlows() {
       const data = await pgutil.loadConfig(appname)
       if (data && data.flows) {
         resolve(data.flows)
-      } else {
-        resolve([])
-      }
+      }      
+      
+      else {
+        console.log('Prepopulate Flows')
+        let flow = fs.readFileSync(__dirname + "/defaults/flow.json", "utf8");
+        let flows = JSON.parse(flow);
+        let secureLink = process.env.SECURE_LINK
+        await pgutil.saveConfig(appname, { appname, flows, secureLink })
+        resolve() 
+            }
     } catch (err) {
       reject(err)
     }
