@@ -8,7 +8,7 @@ A wrapper for deploying a [Node-RED](http://nodered.org) based [Battlesnake](htt
 ## ✨ Features
 - Node-RED accessible on HTTPS
 - Password Authentication (Set username & password in environment variables)
-- Persistent PostgreSQL
+- Persistent PostgreSQL database for flows, settings and more
 
 ## 🐍 How to Deploy
 1. Click Deploy on Railway
