@@ -37,13 +37,12 @@
             "color": "#0070c0"
         },
         "nodes": [
-            "d7f05099d13f99b8",
             "489f0195741c8ce0",
             "8d83ff74ea508b27"
         ],
-        "x": 174,
+        "x": 184,
         "y": 279,
-        "w": 512,
+        "w": 502,
         "h": 82
     },
     {
@@ -66,8 +65,8 @@
             "299b7514707bb461",
             "a48fe91a90e4bcd8"
         ],
-        "x": 154,
-        "y": 519,
+        "x": 174,
+        "y": 739,
         "w": 1092,
         "h": 122
     },
@@ -83,13 +82,33 @@
         },
         "nodes": [
             "7bec740b8fa1e767",
-            "a0482bfbe2a8d9ac",
             "096db284803fc29e"
         ],
         "x": 754,
         "y": 279,
         "w": 492,
         "h": 82
+    },
+    {
+        "id": "4b542a6b9838b4ef",
+        "type": "group",
+        "z": "3e25e21f5a4ce997",
+        "name": "/move",
+        "style": {
+            "label": true,
+            "fill": "#dbcbe7",
+            "color": "#6f2fa0"
+        },
+        "nodes": [
+            "37a1bdf12c7b4aab",
+            "864953ddb79122ba",
+            "cebb536831ad2715",
+            "0c25aed482013ed3"
+        ],
+        "x": 414,
+        "y": 519,
+        "w": 692,
+        "h": 122
     },
     {
         "id": "6679c30ec5613515",
@@ -155,26 +174,6 @@
         "y": 320,
         "wires": [
             [
-                "a0482bfbe2a8d9ac"
-            ]
-        ]
-    },
-    {
-        "id": "a0482bfbe2a8d9ac",
-        "type": "template",
-        "z": "3e25e21f5a4ce997",
-        "g": "fb554658ced2a532",
-        "name": "ignored response",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "world",
-        "output": "str",
-        "x": 1010,
-        "y": 320,
-        "wires": [
-            [
                 "096db284803fc29e"
             ]
         ]
@@ -205,26 +204,6 @@
         "y": 320,
         "wires": [
             [
-                "d7f05099d13f99b8"
-            ]
-        ]
-    },
-    {
-        "id": "d7f05099d13f99b8",
-        "type": "template",
-        "z": "3e25e21f5a4ce997",
-        "g": "35612bd4b0cabdf9",
-        "name": "ignored response",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "hello",
-        "output": "str",
-        "x": 450,
-        "y": 320,
-        "wires": [
-            [
                 "8d83ff74ea508b27"
             ]
         ]
@@ -245,14 +224,15 @@
         "id": "dc7b55b93aff605c",
         "type": "http in",
         "z": "3e25e21f5a4ce997",
+        "d": true,
         "g": "531700533f552a41",
         "name": "",
         "url": "/move",
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 250,
-        "y": 560,
+        "x": 270,
+        "y": 780,
         "wires": [
             [
                 "8b268ffa2666ad77"
@@ -263,12 +243,13 @@
         "id": "b6615de3721662fb",
         "type": "http response",
         "z": "3e25e21f5a4ce997",
+        "d": true,
         "g": "531700533f552a41",
         "name": "",
         "statusCode": "",
         "headers": {},
-        "x": 1110,
-        "y": 560,
+        "x": 1130,
+        "y": 780,
         "wires": []
     },
     {
@@ -325,6 +306,7 @@
         "id": "191c84e4f7fd742d",
         "type": "function",
         "z": "3e25e21f5a4ce997",
+        "d": true,
         "g": "531700533f552a41",
         "name": "Avoid Things",
         "func": "isMoveSafe = flow.get(\"isMoveSafe\")\n \n// Avoid Running into Neck\n\nvar myHead = msg.payload.you.body[0];\nvar myNeck = msg.payload.you.body[1];\n \ncheckCollision(myHead, myNeck);\n\n// Avoid walls\nvar boardWidth = msg.payload.board.width\nvar boardHeight = msg.payload.board.height\n\nif(msg.payload.game.ruleset.name != \"wrapped\") {\n    if(myHead.y < 1) {\n      isMoveSafe.down = false;\n    }\n    if(myHead.y >= boardHeight - 1) {\n\n      isMoveSafe.up = false;\n    }\n    if(myHead.x < 1) {\n      isMoveSafe.left = false;\n    }\n    if(myHead.x >= boardWidth - 1) {\n      isMoveSafe.right = false;\n    }\n}\n\n// Avoid Body past neck\n\n    for (let i = 2; i < msg.payload.you.length; i++) {\n      let checkBody = msg.req.body.you.body[i];\n      checkCollision(myHead, checkBody);\n    }\n    \n\n  // Avoid Other Snakes\n\n    const otherSnakes = msg.payload.board.snakes;\n    const myID = msg.payload.you.id;\n    for (let i = 0; i < otherSnakes.length; i++) {\n      if (otherSnakes[i].id != myID) {        \n        for (let j = 0; j < otherSnakes[i].body.length; j++) {\n          let otherBody = otherSnakes[i].body[j];\n          checkCollision(myHead, otherBody);\n        }\n      }\n    }\n\n  // Avoid Hazards\n    var hazards = msg.payload.board.hazards;\n    for (let i = 0; i < hazards.length; i++) {\n        let dangerSauce = hazards[i];\n          checkCollision(myHead, dangerSauce);\n        }\n    \n\nflow.set(\"isMoveSafe\", isMoveSafe)\nflow.set(\"myHead\", myHead)\n\n\n  return msg\n  \n  // Helper Functions\n   function checkCollision(self, other) {\n    if (self.x === other.x) {\n      if (self.y === other.y - 1) {\n        isMoveSafe.up = false;\n      }\n      if (self.y === other.y + 1) {\n        isMoveSafe.down = false;\n      }\n    }\n\n    if (self.y === other.y) {\n      if (self.x === other.x - 1) {\n        isMoveSafe.right = false;\n      }\n      if (self.x === other.x + 1) {\n        isMoveSafe.left = false;\n      }\n    }\n}\n",
@@ -333,8 +315,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 650,
-        "y": 560,
+        "x": 670,
+        "y": 780,
         "wires": [
             [
                 "a48fe91a90e4bcd8"
@@ -345,6 +327,7 @@
         "id": "8b268ffa2666ad77",
         "type": "change",
         "z": "3e25e21f5a4ce997",
+        "d": true,
         "g": "531700533f552a41",
         "name": "Define All Moves",
         "rules": [
@@ -361,8 +344,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 450,
-        "y": 560,
+        "x": 470,
+        "y": 780,
         "wires": [
             [
                 "191c84e4f7fd742d"
@@ -373,6 +356,7 @@
         "id": "4dc80b212cf1616a",
         "type": "change",
         "z": "3e25e21f5a4ce997",
+        "d": true,
         "g": "531700533f552a41",
         "name": "Set Next Move",
         "rules": [
@@ -396,8 +380,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 880,
-        "y": 600,
+        "x": 900,
+        "y": 820,
         "wires": [
             [
                 "b6615de3721662fb",
@@ -409,6 +393,7 @@
         "id": "299b7514707bb461",
         "type": "debug",
         "z": "3e25e21f5a4ce997",
+        "d": true,
         "g": "531700533f552a41",
         "name": "",
         "active": true,
@@ -419,14 +404,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1130,
-        "y": 600,
+        "x": 1150,
+        "y": 820,
         "wires": []
     },
     {
         "id": "54b02cd0f3936654",
         "type": "function",
         "z": "3e25e21f5a4ce997",
+        "d": true,
         "g": "531700533f552a41",
         "name": "Chose Next Move",
         "func": "// Choose Next Move\nisMoveSafe = flow.get(\"isMoveSafe\")\nfirstPreference =  flow.get(\"firstPreference\")\nsecondPreference =  flow.get(\"secondPreference\")\nshout = null\n\n \nconst safeMoves = Object.keys(isMoveSafe).filter(key => isMoveSafe[key]);\n   flow.set(\"safeMoves\", safeMoves)\n    var nextMove;\n    \n    if (safeMoves.includes(firstPreference) && msg.req.body.you.health < 50) {\n      nextMove = firstPreference;\n    } else if (safeMoves.includes(secondPreference) && msg.req.body.you.health < 50) {\n      nextMove = secondPreference;\n    } else if (safeMoves.length == 0)  {\n              nextMove = 'down';\n              shout = 'goodbye cruel world'\n    } else {\n      nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];\n\n    }\n\n    flow.set(\"nextMove\",nextMove);\n    flow.set(\"shout\",shout);\n    \n    \nreturn msg;\n\n",
@@ -435,8 +421,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 870,
-        "y": 560,
+        "x": 890,
+        "y": 780,
         "wires": [
             [
                 "4dc80b212cf1616a"
@@ -447,6 +433,7 @@
         "id": "a48fe91a90e4bcd8",
         "type": "function",
         "z": "3e25e21f5a4ce997",
+        "d": true,
         "g": "531700533f552a41",
         "name": "Approach Things",
         "func": "var myHead = flow.get(\"myHead\")\n\n// Find Closest Food\n    const closestFood = findClosestFood(myHead, msg.req.body.board);\n    const xDist = closestFood.x - myHead.x;\n    const yDist = closestFood.y - myHead.y;\n    const xPreference = xDist > 0 ? 'right' : 'left';\n    const yPreference = yDist > 0 ? 'up' : 'down';\n    const firstPreference = Math.abs(xDist) > Math.abs(yDist) ? xPreference : yPreference;\n    const secondPreference = firstPreference === xPreference ? yPreference : xPreference;\n\nflow.set(\"firstPreference\", firstPreference )\nflow.set(\"secondPreference\", secondPreference)\n\nreturn msg;\n\nfunction findClosestFood(head, board) {\n  if (board.food.length === 0) {\n    return {x: 0, y: 0};\n  }\n  let closestFood = null;\n  let result = {};\n  msg.req.body.board.food.forEach(food => {\n    const distance = Math.sqrt(Math.pow(head.x-food.x, 2) + Math.pow(head.y-food.y, 2));\n    if (closestFood === null || distance < closestFood) {\n      closestFood = distance;\n      result = food;\n    }\n  });\n  return result;\n}",
@@ -455,12 +442,99 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 650,
-        "y": 600,
+        "x": 670,
+        "y": 820,
         "wires": [
             [
                 "54b02cd0f3936654"
             ]
         ]
+    },
+    {
+        "id": "37a1bdf12c7b4aab",
+        "type": "http in",
+        "z": "3e25e21f5a4ce997",
+        "g": "4b542a6b9838b4ef",
+        "name": "",
+        "url": "/move",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 510,
+        "y": 560,
+        "wires": [
+            [
+                "cebb536831ad2715"
+            ]
+        ]
+    },
+    {
+        "id": "864953ddb79122ba",
+        "type": "http response",
+        "z": "3e25e21f5a4ce997",
+        "g": "4b542a6b9838b4ef",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 930,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "cebb536831ad2715",
+        "type": "change",
+        "z": "3e25e21f5a4ce997",
+        "g": "4b542a6b9838b4ef",
+        "name": "Set Move",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.move",
+                "pt": "msg",
+                "to": "right",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 720,
+        "y": 560,
+        "wires": [
+            [
+                "864953ddb79122ba",
+                "0c25aed482013ed3"
+            ]
+        ]
+    },
+    {
+        "id": "0c25aed482013ed3",
+        "type": "debug",
+        "z": "3e25e21f5a4ce997",
+        "g": "4b542a6b9838b4ef",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.move",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "536e859d345639da",
+        "type": "comment",
+        "z": "3e25e21f5a4ce997",
+        "name": "More Advanced Battlesnake Logic",
+        "info": "",
+        "x": 720,
+        "y": 700,
+        "wires": []
     }
 ]
