@@ -29,3 +29,7 @@ The code used in this repository is based on incredible work from developers in 
 
 ### Battlesnake Flow Code
 - Sam Machin - https://flows.nodered.org/flow/6cbf34b31e1890bb7a638005bcc4f54b
+
+### Advanced Battlesnake Logic
+- @mkaleung - https://github.com/mkaleung/BattleSnake
+- @hatben - https://github.com/hatben/todd
