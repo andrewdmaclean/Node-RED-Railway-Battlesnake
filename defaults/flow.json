@@ -1,1 +1,767 @@
-[{"id":"3e25e21f5a4ce997","type":"tab","label":"Start","disabled":true,"info":""},{"id":"6679c30ec5613515","type":"http in","z":"3e25e21f5a4ce997","name":"","url":"/","method":"get","upload":false,"swaggerDoc":"","x":110,"y":100,"wires":[["06b0f0bae6104f48"]]},{"id":"06b0f0bae6104f48","type":"template","z":"3e25e21f5a4ce997","name":"my snake","field":"payload","fieldType":"msg","format":"json","syntax":"mustache","template":"{\n \"apiversion\": \"1\",\n \"author\": \"\",\n \"color\": \"#a22222\",\n \"head\": \"default\",\n \"tail\": \"default\"\n}","output":"json","x":300,"y":100,"wires":[["8e92a869a40bda82"]]},{"id":"8e92a869a40bda82","type":"http response","z":"3e25e21f5a4ce997","name":"","statusCode":"","headers":{},"x":450,"y":100,"wires":[]},{"id":"7bec740b8fa1e767","type":"http in","z":"3e25e21f5a4ce997","name":"","url":"/end","method":"post","upload":false,"swaggerDoc":"","x":120,"y":180,"wires":[["a0482bfbe2a8d9ac"]]},{"id":"a0482bfbe2a8d9ac","type":"template","z":"3e25e21f5a4ce997","name":"","field":"payload","fieldType":"msg","format":"handlebars","syntax":"mustache","template":"ok","output":"str","x":300,"y":180,"wires":[["096db284803fc29e"]]},{"id":"096db284803fc29e","type":"http response","z":"3e25e21f5a4ce997","name":"","statusCode":"","headers":{},"x":450,"y":180,"wires":[]},{"id":"489f0195741c8ce0","type":"http in","z":"3e25e21f5a4ce997","name":"","url":"/start","method":"post","upload":false,"swaggerDoc":"","x":130,"y":140,"wires":[["d7f05099d13f99b8"]]},{"id":"d7f05099d13f99b8","type":"template","z":"3e25e21f5a4ce997","name":"","field":"payload","fieldType":"msg","format":"handlebars","syntax":"mustache","template":"ok","output":"str","x":300,"y":140,"wires":[["8d83ff74ea508b27"]]},{"id":"8d83ff74ea508b27","type":"http response","z":"3e25e21f5a4ce997","name":"","statusCode":"","headers":{},"x":450,"y":140,"wires":[]},{"id":"dc7b55b93aff605c","type":"http in","z":"3e25e21f5a4ce997","name":"","url":"/move","method":"post","upload":false,"swaggerDoc":"","x":130,"y":240,"wires":[["b9f7e53c67ce750e","66069422eee255ba"]]},{"id":"b57137af4124dc81","type":"change","z":"3e25e21f5a4ce997","name":"Select Random Move","rules":[{"t":"set","p":"payload","pt":"msg","to":"moves[msg.payload]","tot":"msg"}],"action":"","property":"","from":"","to":"","reg":false,"x":1120,"y":240,"wires":[["3915954f05f13460"]]},{"id":"2bbaa00ffe3f226e","type":"random","z":"3e25e21f5a4ce997","name":"","low":"0","high":"","inte":"true","property":"payload","x":900,"y":240,"wires":[["b57137af4124dc81"]]},{"id":"b9f7e53c67ce750e","type":"debug","z":"3e25e21f5a4ce997","name":"","active":false,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","statusVal":"","statusType":"auto","x":310,"y":340,"wires":[]},{"id":"6128249c00d9cfe4","type":"debug","z":"3e25e21f5a4ce997","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"true","targetType":"full","statusVal":"","statusType":"auto","x":1530,"y":340,"wires":[]},{"id":"b6615de3721662fb","type":"http response","z":"3e25e21f5a4ce997","name":"","statusCode":"","headers":{},"x":1530,"y":240,"wires":[]},{"id":"3915954f05f13460","type":"template","z":"3e25e21f5a4ce997","name":"","field":"payload","fieldType":"msg","format":"handlebars","syntax":"mustache","template":"{\"move\": \"{{payload}}\"}","output":"json","x":1340,"y":240,"wires":[["b6615de3721662fb","6128249c00d9cfe4"]]},{"id":"7d46459e08f05bd6","type":"change","z":"3e25e21f5a4ce997","name":"Count Moves","rules":[{"t":"set","p":"to","pt":"msg","to":"$count(moves)-1\t","tot":"jsonata"}],"action":"","property":"","from":"","to":"","reg":false,"x":700,"y":240,"wires":[["2bbaa00ffe3f226e"]]},{"id":"66069422eee255ba","type":"change","z":"3e25e21f5a4ce997","name":"","rules":[{"t":"set","p":"moves","pt":"msg","to":"[\"up\",\"down\",\"left\",\"right\"]","tot":"json"}],"action":"","property":"","from":"","to":"","reg":false,"x":420,"y":240,"wires":[["7d46459e08f05bd6"]]}]
+[
+    {
+        "id": "3e25e21f5a4ce997",
+        "type": "tab",
+        "label": "Battlesnake Starter",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "5a07b783dd45bcf6",
+        "type": "group",
+        "z": "3e25e21f5a4ce997",
+        "name": "/get",
+        "style": {
+            "label": true,
+            "fill": "#dbcbe7",
+            "color": "#6f2fa0",
+            "stroke": "#6f2fa0"
+        },
+        "nodes": [
+            "06b0f0bae6104f48",
+            "6679c30ec5613515",
+            "8e92a869a40bda82"
+        ],
+        "x": 454,
+        "y": 79,
+        "w": 572,
+        "h": 82
+    },
+    {
+        "id": "35612bd4b0cabdf9",
+        "type": "group",
+        "z": "3e25e21f5a4ce997",
+        "name": "/start",
+        "style": {
+            "label": true,
+            "fill": "#bfdbef",
+            "color": "#0070c0",
+            "stroke": "#0070c0"
+        },
+        "nodes": [
+            "489f0195741c8ce0",
+            "8d83ff74ea508b27"
+        ],
+        "x": 174,
+        "y": 279,
+        "w": 512,
+        "h": 82
+    },
+    {
+        "id": "531700533f552a41",
+        "type": "group",
+        "z": "3e25e21f5a4ce997",
+        "name": "/move",
+        "style": {
+            "label": true,
+            "fill": "#dbcbe7",
+            "color": "#6f2fa0"
+        },
+        "nodes": [
+            "dc7b55b93aff605c",
+            "b6615de3721662fb",
+            "191c84e4f7fd742d",
+            "8b268ffa2666ad77",
+            "4dc80b212cf1616a",
+            "54b02cd0f3936654",
+            "299b7514707bb461",
+            "a48fe91a90e4bcd8",
+            "498c608c4c0b86a7"
+        ],
+        "x": 174,
+        "y": 959,
+        "w": 1132,
+        "h": 122
+    },
+    {
+        "id": "fb554658ced2a532",
+        "type": "group",
+        "z": "3e25e21f5a4ce997",
+        "name": "/end",
+        "style": {
+            "label": true,
+            "fill": "#bfdbef",
+            "color": "#0070c0",
+            "stroke": "#0070c0"
+        },
+        "nodes": [
+            "7bec740b8fa1e767",
+            "096db284803fc29e"
+        ],
+        "x": 754,
+        "y": 279,
+        "w": 492,
+        "h": 82
+    },
+    {
+        "id": "4b542a6b9838b4ef",
+        "type": "group",
+        "z": "3e25e21f5a4ce997",
+        "name": "/move",
+        "style": {
+            "label": true,
+            "fill": "#dbcbe7",
+            "color": "#6f2fa0",
+            "stroke": "#6f2fa0"
+        },
+        "nodes": [
+            "37a1bdf12c7b4aab",
+            "864953ddb79122ba",
+            "cebb536831ad2715"
+        ],
+        "x": 634,
+        "y": 579,
+        "w": 592,
+        "h": 82
+    },
+    {
+        "id": "c7c45e6614cedbba",
+        "type": "group",
+        "z": "3e25e21f5a4ce997",
+        "name": "/move",
+        "style": {
+            "stroke": "#6f2fa0",
+            "label": true,
+            "color": "#6f2fa0",
+            "fill": "#dbcbe7"
+        },
+        "nodes": [
+            "96c0ac4099134c30",
+            "2e7bb4987b16b9ff"
+        ],
+        "x": 174,
+        "y": 579,
+        "w": 392,
+        "h": 82
+    },
+    {
+        "id": "acb194a22ca2ec0c",
+        "type": "group",
+        "z": "3e25e21f5a4ce997",
+        "name": "/move",
+        "style": {
+            "label": true,
+            "fill": "#dbcbe7",
+            "color": "#6f2fa0",
+            "stroke": "#6f2fa0"
+        },
+        "nodes": [
+            "3a00193edb1b8a93",
+            "2121d080962a2236",
+            "2b1fb4c6495ac4a3",
+            "3936309a973ebad9",
+            "9fb21de7ab6d669e"
+        ],
+        "x": 414,
+        "y": 739,
+        "w": 692,
+        "h": 122
+    },
+    {
+        "id": "6679c30ec5613515",
+        "type": "http in",
+        "z": "3e25e21f5a4ce997",
+        "g": "5a07b783dd45bcf6",
+        "name": "",
+        "url": "/",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 530,
+        "y": 120,
+        "wires": [
+            [
+                "06b0f0bae6104f48"
+            ]
+        ]
+    },
+    {
+        "id": "06b0f0bae6104f48",
+        "type": "template",
+        "z": "3e25e21f5a4ce997",
+        "g": "5a07b783dd45bcf6",
+        "name": "Battlesnake Customizations",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\n \"apiversion\": \"1\",\n \"author\": \"\",\n \"color\": \"#808080\",\n \"head\": \"default\",\n \"tail\": \"default\"\n}",
+        "output": "json",
+        "x": 740,
+        "y": 120,
+        "wires": [
+            [
+                "8e92a869a40bda82"
+            ]
+        ]
+    },
+    {
+        "id": "8e92a869a40bda82",
+        "type": "http response",
+        "z": "3e25e21f5a4ce997",
+        "g": "5a07b783dd45bcf6",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 950,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "7bec740b8fa1e767",
+        "type": "http in",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "fb554658ced2a532",
+        "name": "",
+        "url": "/end",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 840,
+        "y": 320,
+        "wires": [
+            [
+                "096db284803fc29e"
+            ]
+        ]
+    },
+    {
+        "id": "096db284803fc29e",
+        "type": "http response",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "fb554658ced2a532",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1170,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "489f0195741c8ce0",
+        "type": "http in",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "35612bd4b0cabdf9",
+        "name": "",
+        "url": "/start",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 270,
+        "y": 320,
+        "wires": [
+            [
+                "8d83ff74ea508b27"
+            ]
+        ]
+    },
+    {
+        "id": "8d83ff74ea508b27",
+        "type": "http response",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "35612bd4b0cabdf9",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 610,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "dc7b55b93aff605c",
+        "type": "http in",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "531700533f552a41",
+        "name": "",
+        "url": "/move",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 270,
+        "y": 1000,
+        "wires": [
+            [
+                "8b268ffa2666ad77",
+                "498c608c4c0b86a7"
+            ]
+        ]
+    },
+    {
+        "id": "b6615de3721662fb",
+        "type": "http response",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "531700533f552a41",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1130,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "2da83728b10541f9",
+        "type": "comment",
+        "z": "3e25e21f5a4ce997",
+        "name": "An empty GET request made to the top-level URL of your Battlesnake.",
+        "info": "Used for customization, checking latency, and verifying successful communications between the Battlesnake and the Battlesnake Engine",
+        "x": 730,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "4ccd90404ff2bebc",
+        "type": "comment",
+        "z": "3e25e21f5a4ce997",
+        "name": "Use this data to determine how your Battlesnake will move on that turn, either up, down, left, or right.",
+        "info": "",
+        "x": 750,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "77c1832b1ca3fd89",
+        "type": "comment",
+        "z": "3e25e21f5a4ce997",
+        "name": "Data from /start can be used for logic or to allocate resources.",
+        "info": " 1",
+        "x": 420,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "04fab37ba986fa5b",
+        "type": "comment",
+        "z": "3e25e21f5a4ce997",
+        "name": "Data from /end can show how you won or lost and deallocate resources. ",
+        "info": "",
+        "x": 1000,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "9115252562c1793e",
+        "type": "comment",
+        "z": "3e25e21f5a4ce997",
+        "name": "Your Battlesnake will receive these requests for each game but responses will be ignored.",
+        "info": "",
+        "x": 710,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "191c84e4f7fd742d",
+        "type": "function",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "531700533f552a41",
+        "name": "Avoid Things",
+        "func": "isMoveSafe = flow.get(\"isMoveSafe\")\n \n// Avoid Running into Neck\n\nvar myHead = msg.payload.you.body[0];\nvar myNeck = msg.payload.you.body[1];\n \ncheckCollision(myHead, myNeck);\n\n// Avoid walls\nvar boardWidth = msg.payload.board.width\nvar boardHeight = msg.payload.board.height\n\nif(msg.payload.game.ruleset.name != \"wrapped\") {\n    if(myHead.y < 1) {\n      isMoveSafe.down = false;\n    }\n    if(myHead.y >= boardHeight - 1) {\n\n      isMoveSafe.up = false;\n    }\n    if(myHead.x < 1) {\n      isMoveSafe.left = false;\n    }\n    if(myHead.x >= boardWidth - 1) {\n      isMoveSafe.right = false;\n    }\n}\n\n// Avoid Body past neck\n\n    for (let i = 2; i < msg.payload.you.length; i++) {\n      let checkBody = msg.req.body.you.body[i];\n      checkCollision(myHead, checkBody);\n    }\n    \n\n  // Avoid Other Snakes\n\n    const otherSnakes = msg.payload.board.snakes;\n    const myID = msg.payload.you.id;\n    for (let i = 0; i < otherSnakes.length; i++) {\n      if (otherSnakes[i].id != myID) {        \n        for (let j = 0; j < otherSnakes[i].body.length; j++) {\n          let otherBody = otherSnakes[i].body[j];\n          checkCollision(myHead, otherBody);\n        }\n      }\n    }\n\n  // Avoid Hazards\n    var hazards = msg.payload.board.hazards;\n    for (let i = 0; i < hazards.length; i++) {\n        let dangerSauce = hazards[i];\n          checkCollision(myHead, dangerSauce);\n        }\n    \n\nflow.set(\"isMoveSafe\", isMoveSafe)\nflow.set(\"myHead\", myHead)\n\n\n  return msg\n  \n  // Helper Functions\n   function checkCollision(self, other) {\n    if (self.x === other.x) {\n      if (self.y === other.y - 1) {\n        isMoveSafe.up = false;\n      }\n      if (self.y === other.y + 1) {\n        isMoveSafe.down = false;\n      }\n    }\n\n    if (self.y === other.y) {\n      if (self.x === other.x - 1) {\n        isMoveSafe.right = false;\n      }\n      if (self.x === other.x + 1) {\n        isMoveSafe.left = false;\n      }\n    }\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 1000,
+        "wires": [
+            [
+                "a48fe91a90e4bcd8"
+            ]
+        ]
+    },
+    {
+        "id": "8b268ffa2666ad77",
+        "type": "change",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "531700533f552a41",
+        "name": "Define All Moves",
+        "rules": [
+            {
+                "t": "set",
+                "p": "isMoveSafe",
+                "pt": "flow",
+                "to": "{ \"up\":true,  \"down\":true,  \"left\":true,  \"right\":true}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 470,
+        "y": 1000,
+        "wires": [
+            [
+                "191c84e4f7fd742d"
+            ]
+        ]
+    },
+    {
+        "id": "4dc80b212cf1616a",
+        "type": "change",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "531700533f552a41",
+        "name": "Set Next Move",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.move",
+                "pt": "msg",
+                "to": "nextMove",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "payload.shout",
+                "pt": "msg",
+                "to": "shout",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 900,
+        "y": 1040,
+        "wires": [
+            [
+                "b6615de3721662fb",
+                "299b7514707bb461"
+            ]
+        ]
+    },
+    {
+        "id": "299b7514707bb461",
+        "type": "debug",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "531700533f552a41",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.move",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1170,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "54b02cd0f3936654",
+        "type": "function",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "531700533f552a41",
+        "name": "Chose Next Move",
+        "func": "// Choose Next Move\nisMoveSafe = flow.get(\"isMoveSafe\")\nfirstPreference =  flow.get(\"firstPreference\")\nsecondPreference =  flow.get(\"secondPreference\")\nshout = null\n\n \nconst safeMoves = Object.keys(isMoveSafe).filter(key => isMoveSafe[key]);\n   flow.set(\"safeMoves\", safeMoves)\n    var nextMove;\n    \n    if (safeMoves.includes(firstPreference) && msg.req.body.you.health < 50) {\n      nextMove = firstPreference;\n    } else if (safeMoves.includes(secondPreference) && msg.req.body.you.health < 50) {\n      nextMove = secondPreference;\n    } else if (safeMoves.length == 0)  {\n              nextMove = 'down';\n              shout = 'goodbye cruel world'\n    } else {\n      nextMove = safeMoves[Math.floor(Math.random() * safeMoves.length)];\n\n    }\n\n    flow.set(\"nextMove\",nextMove);\n    flow.set(\"shout\",shout);\n    \n    \nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 1000,
+        "wires": [
+            [
+                "4dc80b212cf1616a"
+            ]
+        ]
+    },
+    {
+        "id": "a48fe91a90e4bcd8",
+        "type": "function",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "531700533f552a41",
+        "name": "Approach Things",
+        "func": "var myHead = flow.get(\"myHead\")\n\n// Find Closest Food\n    const closestFood = findClosestFood(myHead, msg.req.body.board);\n    const xDist = closestFood.x - myHead.x;\n    const yDist = closestFood.y - myHead.y;\n    const xPreference = xDist > 0 ? 'right' : 'left';\n    const yPreference = yDist > 0 ? 'up' : 'down';\n    const firstPreference = Math.abs(xDist) > Math.abs(yDist) ? xPreference : yPreference;\n    const secondPreference = firstPreference === xPreference ? yPreference : xPreference;\n\nflow.set(\"firstPreference\", firstPreference )\nflow.set(\"secondPreference\", secondPreference)\n\nreturn msg;\n\nfunction findClosestFood(head, board) {\n  if (board.food.length === 0) {\n    return {x: 0, y: 0};\n  }\n  let closestFood = null;\n  let result = {};\n  msg.req.body.board.food.forEach(food => {\n    const distance = Math.sqrt(Math.pow(head.x-food.x, 2) + Math.pow(head.y-food.y, 2));\n    if (closestFood === null || distance < closestFood) {\n      closestFood = distance;\n      result = food;\n    }\n  });\n  return result;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 1040,
+        "wires": [
+            [
+                "54b02cd0f3936654"
+            ]
+        ]
+    },
+    {
+        "id": "37a1bdf12c7b4aab",
+        "type": "http in",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "4b542a6b9838b4ef",
+        "name": "",
+        "url": "/move",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 730,
+        "y": 620,
+        "wires": [
+            [
+                "cebb536831ad2715"
+            ]
+        ]
+    },
+    {
+        "id": "864953ddb79122ba",
+        "type": "http response",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "4b542a6b9838b4ef",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1150,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "cebb536831ad2715",
+        "type": "change",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "4b542a6b9838b4ef",
+        "name": "Set Move",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.move",
+                "pt": "msg",
+                "to": "right",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 940,
+        "y": 620,
+        "wires": [
+            [
+                "864953ddb79122ba"
+            ]
+        ]
+    },
+    {
+        "id": "536e859d345639da",
+        "type": "comment",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "name": "More Advanced Battlesnake Logic",
+        "info": "",
+        "x": 760,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "96c0ac4099134c30",
+        "type": "http in",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "c7c45e6614cedbba",
+        "name": "",
+        "url": "/move",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 270,
+        "y": 620,
+        "wires": [
+            [
+                "2e7bb4987b16b9ff"
+            ]
+        ]
+    },
+    {
+        "id": "2e7bb4987b16b9ff",
+        "type": "debug",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "c7c45e6614cedbba",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 450,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "1a922654a86ed793",
+        "type": "comment",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "name": "Reading game data from /move endpoint",
+        "info": "",
+        "x": 380,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "7d4139bea0e742f5",
+        "type": "comment",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "name": "Sending move response to /move endpoint",
+        "info": "",
+        "x": 920,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "e684804faf0cd07b",
+        "type": "comment",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "name": "Putting it all together!",
+        "info": "",
+        "x": 760,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "3a00193edb1b8a93",
+        "type": "http in",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "acb194a22ca2ec0c",
+        "name": "",
+        "url": "/move",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 510,
+        "y": 780,
+        "wires": [
+            [
+                "2b1fb4c6495ac4a3",
+                "3936309a973ebad9"
+            ]
+        ]
+    },
+    {
+        "id": "2121d080962a2236",
+        "type": "http response",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "acb194a22ca2ec0c",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 930,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "2b1fb4c6495ac4a3",
+        "type": "change",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "acb194a22ca2ec0c",
+        "name": "Set Move",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.move",
+                "pt": "msg",
+                "to": "right",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 720,
+        "y": 780,
+        "wires": [
+            [
+                "2121d080962a2236",
+                "9fb21de7ab6d669e"
+            ]
+        ]
+    },
+    {
+        "id": "3936309a973ebad9",
+        "type": "debug",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "acb194a22ca2ec0c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "9fb21de7ab6d669e",
+        "type": "debug",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "acb194a22ca2ec0c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.move",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "498c608c4c0b86a7",
+        "type": "debug",
+        "z": "3e25e21f5a4ce997",
+        "d": true,
+        "g": "531700533f552a41",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 430,
+        "y": 1040,
+        "wires": []
+    }
+]
